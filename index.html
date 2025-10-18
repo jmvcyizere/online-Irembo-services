@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ONLINE & IREMBO SERVICES LTD — Full Dashboard</title>
+<style>
+:root{--accent:#0d47a1;--bg:#e8f0fe;--card:#fff;--text:#0f172a;--hover:#1565c0;--shadow:0 4px 18px rgba(2,6,23,0.06);--whatsapp:#25D366;}
+[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--accent:#60a5fa;--hover:#2563eb;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+body{background:var(--bg);color:var(--text);line-height:1.45;min-height:100vh;display:flex;flex-direction:column;transition:background .25s,color .25s;}
+header{background:var(--accent);color:white;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;}
+.brand{font-weight:700;font-size:18px;}
+.menu{display:flex;gap:12px;align-items:center;}
+.menu a{color:white;text-decoration:none;padding:8px;border-radius:8px;cursor:pointer;font-weight:600;}
+.menu a:hover{background:rgba(255,255,255,0.06);}
+.dropdown{position:relative;display:inline-block;}
+.dropdown-content{display:none;position:absolute;right:0;background:#fff;min-width:220px;box-shadow:0 8px 24px rgba(2,6,23,0.12);border-radius:8px;overflow:hidden;}
+.dropdown-content a{display:block;padding:10px 14px;color:#0f172a;text-decoration:none;}
+.dropdown-content a:hover{background:#e8f5ff;}
+.dropdown:hover .dropdown-content{display:block;}
+.container{max-width:1100px;margin:22px auto;padding:18px;width:95%;}
+.hero{display:flex;flex-wrap:wrap;gap:24px;align-items:center;padding:28px;border-radius:12px;background:linear-gradient(90deg,#eaf3ff,#cfe6ff);}
+.hero h1{margin:0 0 10px;font-size:28px;color:var(--accent);}
+.hero p{margin:0 0 12px;color:#374151;}
+.btn{padding:10px 14px;border-radius:10px;background:var(--accent);color:white;border:none;cursor:pointer;font-weight:700;}
+.btn.secondary{background:#fff;color:var(--accent);border:1px solid rgba(0,0,0,0.06);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px;}
+.card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);}
+.muted{color:#6b7280;font-size:14px;}
+footer{margin-top:auto;padding:20px;background:var(--accent);color:white;text-align:center;border-top-left-radius:6px;border-top-right-radius:6px;}
+.modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.5);justify-content:center;align-items:center;z-index:2000;padding:18px;}
+.modal.show{display:flex;}
+.modal .modal-content{background:var(--card);padding:18px;border-radius:12px;max-width:560px;width:100%;box-shadow:0 10px 40px rgba(2,6,23,0.14);}
+label{display:block;margin-bottom:6px;color:#233254;}
+input,textarea,select{width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid #d1d5db;font-size:15px;}
+textarea{min-height:110px;}
+@media (max-width:720px){.hero{padding:18px}.menu{gap:6px}}
+.admin-list{max-height:320px;overflow:auto;margin-top:10px;}
+.user-row{padding:8px;border-bottom:1px dashed #eee;display:flex;align-items:center;justify-content:space-between;}
+.user-info{font-size:14px;color:#0f172a;}
+.small{font-size:13px;color:#6b7280;}
+.footer-links a{color:white;text-decoration:underline;}
+#pf_image_preview{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:8px;}
+#serviceTabs button{margin-right:6px;margin-bottom:8px;}
+</style>
+</head>
+<body data-theme="light">
+
+<header>
+  <div class="brand">ONLINE & IREMBO SERVICES LTD</div>
+  <nav class="menu" aria-label="Main menu">
+    <a onclick="scrollTo('home')">Home</a>
+    <a onclick="scrollTo('announce')">Announcements</a>
+    <div class="dropdown">
+      <a class="dropbtn">Our Services ▼</a>
+      <div class="dropdown-content" role="menu">
+        <a onclick="showServiceTab('irembo')">IREMBO</a>
+        <a onclick="showServiceTab('rra')">RRA</a>
+        <a onclick="showServiceTab('rura')">RURA</a>
+        <a onclick="showServiceTab('rssb')">RSSB</a>
+        <a onclick="showServiceTab('scholarships')">Scholarships</a>
+        <a onclick="showServiceTab('rdb')">RDB</a>
+      </div>
+    </div>
+    <a onclick="scrollTo('contact')">Contact</a>
+    <a onclick="openModal('payModal')">Pay</a>
+    <a onclick="openModal('loginModal')">Login</a>
+    <a onclick="openModal('regModal')">Register</a>
+    <a onclick="toggleTheme()">🌗</a>
+  </nav>
+</header>
+
+<main class="container">
+  <section id="home" class="hero">
+    <div>
+      <h1>Welcome to ONLINE & IREMBO SERVICES LTD</h1>
+      <p>Professional ICT solutions across Rwanda — simple payments, document support, and guidance.</p>
+      <div style="margin-top:12px;">
+        <button class="btn" onclick="scrollTo('services')">View Services</button>
+        <button class="btn secondary" onclick="openModal('payModal')">Pay for Services</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="announce" style="margin-top:18px">
+    <div class="card" style="background:#fff7ed">
+      <h3 style="color:#b45309">Announcements / Amatangazo</h3>
+      <p class="muted">Join our WhatsApp group for updates.</p>
+      <a href="https://chat.whatsapp.com/FMUCiTKwGAL9DT8vxllz4q" target="_blank" class="btn" style="background:#25D366">Join WhatsApp</a>
+    </div>
+  </section>
+
+  <section id="services" style="margin-top:18px">
+    <div id="serviceTabs" style="margin-bottom:12px;">
+      <button class="btn secondary" onclick="showServiceTab('irembo')">IREMBO</button>
+      <button class="btn secondary" onclick="showServiceTab('rra')">RRA</button>
+      <button class="btn secondary" onclick="showServiceTab('rura')">RURA</button>
+      <button class="btn secondary" onclick="showServiceTab('rssb')">RSSB</button>
+      <button class="btn secondary" onclick="showServiceTab('scholarships')">Scholarships</button>
+      <button class="btn secondary" onclick="showServiceTab('rdb')">RDB</button>
+    </div>
+    <div id="serviceContent" class="card">
+      <p>Select a service above to view.</p>
+    </div>
+  </section>
+
+  <section id="contact" style="margin-top:20px">
+    <div class="card">
+      <h3>Contact Us</h3>
+      <form id="contactForm">
+        <label>Name</label><input id="c_name" type="text" required>
+        <label>Email</label><input id="c_email" type="email" required>
+        <label>Message</label><textarea id="c_msg" required></textarea>
+        <div style="margin-top:10px"><button class="btn" type="submit">Send</button></div>
+      </form>
+      <p id="contactResult" class="muted" style="margin-top:8px"></p>
+      <p class="muted">Chat/Call on WhatsApp: <a href="https://wa.me/250782491115" target="_blank" class="link-like">+250 782 491 115</a></p>
+    </div>
+  </section>
+
+  <section id="dashboardSection" style="margin-top:20px; display:none;">
+    <div class="card">
+      <h3 id="dashTitle">Dashboard</h3>
+      <p id="dashWelcome" class="muted"></p>
+      <button class="btn secondary" onclick="logoutUser()">Logout</button>
+
+      <div id="adminPanel" style="display:none;margin-top:14px;">
+        <h4>Admin Panel — Approvals</h4>
+        <p class="small muted">Approve or reject newly registered users. Only admin may open this panel.</p>
+        <div id="pendingList" class="admin-list"></div>
+        <h4>All Users</h4>
+        <div id="allUsersList" class="admin-list"></div>
+      </div>
+
+      <div id="userPanel" style="display:none;margin-top:14px;">
+        <h4>Profile</h4>
+        <img id="pf_image_preview" src="" alt="Profile Picture">
+        <label>Upload Profile Picture</label><input type="file" id="pf_image" accept="image/*" onchange="uploadProfilePic()">
+        <p id="profilePicMsg" class="muted"></p>
+
+        <label>Full name</label><input id="pf_name" type="text">
+        <label>Email</label><input id="pf_email" type="email">
+        <label>Phone</label><input id="pf_phone" type="text">
+        <div style="margin-top:8px"><button class="btn" onclick="saveProfile()">Save Profile</button></div>
+        <p id="profileMsg" class="muted" style="margin-top:8px"></p>
+
+        <h4 style="margin-top:14px">Transactions (demo)</h4>
+        <label>Service</label>
+        <select id="txService">
+          <option>IREMBO</option><option>RRA</option><option>RURA</option><option>RSSB</option><option>Scholarships</option><option>RDB</option>
+        </select>
+        <label>Amount (RWF)</label><input id="txAmount" type="number">
+        <div style="margin-top:8px"><button class="btn" onclick="addTransaction()">Submit Payment (simulate)</button></div>
+        <div id="txList" style="margin-top:12px"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div style="text-align:center;color:white;padding:14px;">
+    © <span id="yr"></span> ONLINE & IREMBO SERVICES LTD • Email: <a href="mailto:jmvcyizere@gmail.com" style="color:white;text-decoration:underline">jmvcyizere@gmail.com</a> • <a href="https://wa.me/250782491115" target="_blank" style="color:white;text-decoration:underline">WhatsApp</a>
+  </div>
+</footer>
+
+<!-- Modals -->
+<div id="payModal" class="modal"><div class="modal-content">
+<h3>Pay for Services — MTN MoMo (demo)</h3>
+<p class="muted">Dial the USSD code on your MTN phone:</p>
+<div style="font-weight:700;margin:10px 0;">*182*8*1*248388#</div>
+<form id="payForm">
+<label>Full Name</label><input id="pay_name" required>
+<label>Phone (MTN)</label><input id="pay_phone" required>
+<label>Amount (RWF)</label><input id="pay_amount" type="number" required>
+<button class="btn" type="submit">Proceed</button>
+<button type="button" class="btn secondary" onclick="closeModal('payModal')">Cancel</button>
+</form>
+<div id="payAfter" style="display:none;margin-top:12px;">
+<p class="muted">If on mobile, click to dial:</p>
+<a id="payDial" class="btn" href="#">Dial USSD</a>
+<div style="margin-top:8px;"><button class="btn secondary" id="confirmPaid">I Confirm I Paid</button></div>
+</div>
+</div></div>
+
+<div id="loginModal" class="modal"><div class="modal-content">
+<h3>Login</h3>
+<form id="loginForm">
+<label>Username or Email</label><input id="login_user" required>
+<label>Password</label><input id="login_pass" type="password" required>
+<div style="margin-top:8px;"><button class="btn" type="submit">Login</button> <button type="button" class="btn secondary" onclick="closeModal('loginModal')">Cancel</button></div>
+</form>
+<p class="small muted" style="margin-top:8px;">(Admin account is protected — not shown in UI.)</p>
+</div></div>
+
+<div id="regModal" class="modal"><div class="modal-content">
+<h3>Register</h3>
+<label>Name</label><input id="reg_name">
+<label>Email</label><input id="reg_email" type="email">
+<label>Phone</label><input id="reg_phone">
+<label>Password</label><input id="reg_pass" type="password">
+<div style="margin-top:8px;"><button class="btn" onclick="doRegister()">Submit registration</button> <button class="btn secondary" onclick="closeModal('regModal')">Cancel</button></div>
+<p class="small muted" style="margin-top:8px;">After you register, admin must approve your account before login.</p>
+</div></div>
+
+<script>
+// Theme toggle
+function toggleTheme(){ document.body.dataset.theme = document.body.dataset.theme==='light'?'dark':'light'; }
+document.getElementById('yr').textContent=new Date().getFullYear();
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+
+// Users
+let users = JSON.parse(localStorage.getItem('users')||'[]');
+let pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')||'[]');
+let currentUser = null;
+
+// Admin credentials hidden
+const ADMIN_USER='ycee', ADMIN_PASS='2000';
+
+// Contact form
+document.getElementById('contactForm').addEventListener('submit',function(e){
+e.preventDefault();
+const n=document.getElementById('c_name').value.trim();
+const em=document.getElementById('c_email').value.trim();
+const msg=document.getElementById('c_msg').value.trim();
+if(!n||!em||!msg){document.getElementById('contactResult').textContent="Fill all fields";return;}
+document.getElementById('contactResult').textContent=`Thank you ${n}, message sent (demo).`;this.reset();
+});
+
+// Registration
+function doRegister(){
+  const n=document.getElementById('reg_name').value.trim();
+  const e=document.getElementById('reg_email').value.trim();
+  const p=document.getElementById('reg_pass').value.trim();
+  const ph=document.getElementById('reg_phone').value.trim();
+  if(!n||!e||!p){alert('All fields required');return;}
+  pendingUsers.push({name:n,email:e,phone:ph,password:p});
+  localStorage.setItem('pendingUsers',JSON.stringify(pendingUsers));
+  alert('Registration submitted. Wait admin approval.');
+  closeModal('regModal');
+}
+
+// Login
+document.getElementById('loginForm').addEventListener('submit',function(e){
+e.preventDefault();
+const u=document.getElementById('login_user').value.trim();
+const p=document.getElementById('login_pass').value.trim();
+if(u===ADMIN_USER && p===ADMIN_PASS){
+currentUser={name:'Admin',email:'admin',admin:true};
+document.getElementById('dashboardSection').style.display='block';
+document.getElementById('adminPanel').style.display='block';
+document.getElementById('userPanel').style.display='none';
+document.getElementById('dashWelcome').textContent='Welcome, Admin';
+closeModal('loginModal');
+updateAdminLists();
+return;
+}
+let found = users.find(x=>x.email===u || x.name===u);
+if(!found){alert('No user found or pending approval');return;}
+if(found.password!==p){alert('Wrong password');return;}
+currentUser=found;
+document.getElementById('dashboardSection').style.display='block';
+document.getElementById('userPanel').style.display='block';
+document.getElementById('adminPanel').style.display='none';
+document.getElementById('dashWelcome').textContent=`Welcome, ${found.name}`;
+closeModal('loginModal');
+loadUserProfile();
+});
+
+// Logout
+function logoutUser(){currentUser=null;document.getElementById('dashboardSection').style.display='none';alert('Logged out');}
+
+// Admin functions
+function updateAdminLists(){
+  const pendingList=document.getElementById('pendingList');
+  pendingList.innerHTML='';
+  pendingUsers.forEach((u,i)=>{
+    let div=document.createElement('div');div.className='user-row';
+    div.innerHTML=`<span class="user-info">${u.name} | ${u.email}</span>
+    <div><button onclick="approveUser(${i})" class="btn secondary" style="margin-right:4px">Approve</button>
+    <button onclick="rejectUser(${i})" class="btn secondary">Reject</button></div>`;
+    pendingList.appendChild(div);
+  });
+  const allList=document.getElementById('allUsersList');
+  allList.innerHTML='';
+  users.forEach(u=>{
+    let div=document.createElement('div');div.className='user-row';
+    div.textContent=`${u.name} | ${u.email} | ${u.phone}`;
+    allList.appendChild(div);
+  });
+}
+function approveUser(idx){users.push(pendingUsers[idx]);pendingUsers.splice(idx,1);localStorage.setItem('users',JSON.stringify(users));localStorage.setItem('pendingUsers',JSON.stringify(pendingUsers));updateAdminLists();}
+function rejectUser(idx){pendingUsers.splice(idx,1);localStorage.setItem('pendingUsers',JSON.stringify(pendingUsers));updateAdminLists();}
+
+// User profile
+function loadUserProfile(){
+  if(!currentUser)return;
+  document.getElementById('pf_name').value=currentUser.name;
+  document.getElementById('pf_email').value=currentUser.email;
+  document.getElementById('pf_phone').value=currentUser.phone||'';
+  if(currentUser.profilePic) document.getElementById('pf_image_preview').src=currentUser.profilePic;
+}
+
+function saveProfile(){
+  currentUser.name=document.getElementById('pf_name').value;
+  currentUser.email=document.getElementById('pf_email').value;
+  currentUser.phone=document.getElementById('pf_phone').value;
+  users = users.map(u=>u.email===currentUser.email?currentUser:u);
+  localStorage.setItem('users',JSON.stringify(users));
+  document.getElementById('profileMsg').textContent='Profile updated (demo)';
+}
+
+function uploadProfilePic(){
+  const file=document.getElementById('pf_image').files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const dataURL=e.target.result;
+    document.getElementById('pf_image_preview').src=dataURL;
+    currentUser.profilePic=dataURL;
+    users=users.map(u=>u.email===currentUser.email?currentUser:u);
+    localStorage.setItem('users',JSON.stringify(users));
+    document.getElementById('profilePicMsg').textContent='Profile picture updated';
+  }
+  reader.readAsDataURL(file);
+}
+
+// Transactions demo
+let txs = [];
+function addTransaction(){const s=document.getElementById('txService').value;const a=document.getElementById('txAmount').value;if(!s||!a){alert('Fill service and amount');return;}txs.push({service:s,amount:a,date:new Date().toLocaleString('en-RW',{timeZone:'Africa/Kigali'})});renderTxs();}
+function renderTxs(){let list=document.getElementById('txList');list.innerHTML='';txs.forEach(tx=>{let div=document.createElement('div');div.className='small';div.textContent=`${tx.date}: ${tx.service} — ${tx.amount} RWF`;list.appendChild(div);});}
+
+// Pay modal
+document.getElementById('payForm').addEventListener('submit',function(e){
+e.preventDefault();
+const n=document.getElementById('pay_name').value.trim();
+const p=document.getElementById('pay_phone').value.trim();
+const a=document.getElementById('pay_amount').value.trim();
+if(!n||!p||!a){alert('All fields required');return;}
+document.getElementById('payForm').style.display='none';
+document.getElementById('payAfter').style.display='block';
+document.getElementById('payDial').href=`tel:*182*8*1*248388*${a}#`;
+});
+document.getElementById('confirmPaid').addEventListener('click',function(){alert('Payment confirmed (demo).');closeModal('payModal');document.getElementById('payForm').style.display='block';document.getElementById('payAfter').style.display='none';});
+
+// Service tabs
+function showServiceTab(name){
+  const content=document.getElementById('serviceContent');
+  const urls={
+    irembo:'https://irembo.gov.rw/home/citizen/all_services',
+    rra:'https://www.rra.gov.rw/en/home',
+    rura:'https://licensing.rura.rw/agent/login',
+    rssb:'https://www.rssb.rw/',
+    scholarships:'https://chancen.international/',
+    rdb:'https://rdb.rw/'
+  };
+  content.innerHTML=`<iframe src="${urls[name]}" style="width:100%;height:400px;border:none;border-radius:8px;"></iframe>`;
+}
+</script>
+
+</body>
+</html>

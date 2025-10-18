@@ -1,0 +1,73 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard — ONLINE & IREMBO SERVICES LTD</title>
+<style>
+:root{--accent:#0d47a1;--bg:#e8f0fe;--card:#fff;--text:#0f172a;--hover:#1565c0;--shadow:0 4px 18px rgba(2,6,23,0.06);}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--bg);margin:0;padding:0;}
+.container{max-width:900px;margin:20px auto;padding:18px;}
+h2{color:var(--accent);}
+input{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #d1d5db;}
+button{padding:8px 12px;margin:4px;border-radius:6px;border:none;background:var(--accent);color:white;cursor:pointer;}
+button.secondary{background:#fff;color:var(--accent);border:1px solid #d1d5db;}
+table{width:100%;border-collapse:collapse;margin-top:12px;}
+th,td{padding:8px;border:1px solid #ccc;text-align:left;}
+.success{background:#e6ffef;}
+.warning{background:#fff7e6;}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>User Dashboard</h2>
+<h3>Profile</h3>
+<form id="profileForm">
+<label>Name</label><input type="text" id="profileName">
+<label>Email</label><input type="email" id="profileEmail">
+<label>Password</label><input type="password" id="profilePass">
+<button type="button" onclick="saveProfile()">Save Profile</button>
+</form>
+<h3>Transactions</h3>
+<table>
+<thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Amount</th><th>Status</th><th>Confirm Paid</th></tr></thead>
+<tbody id="txTable"></tbody>
+</table>
+</div>
+
+<script>
+const user=JSON.parse(localStorage.getItem('registeredUser')||'{}');
+document.getElementById('profileName').value=user.name||'';
+document.getElementById('profileEmail').value=user.email||'';
+document.getElementById('profilePass').value=user.pass||'';
+
+function saveProfile(){
+  user.name=document.getElementById('profileName').value;
+  user.email=document.getElementById('profileEmail').value;
+  user.pass=document.getElementById('profilePass').value;
+  localStorage.setItem('registeredUser',JSON.stringify(user));
+  alert('Profile saved');
+}
+
+function loadTransactions(){
+  const txs=JSON.parse(localStorage.getItem('transactions')||'[]').reverse();
+  const tbody=document.getElementById('txTable');
+  tbody.innerHTML='';
+  txs.forEach(t=>{
+    const tr=document.createElement('tr');
+    tr.className=t.status==='SUCCESS'?'success':'warning';
+    tr.innerHTML=`<td>${t.id}</td><td>${t.name}</td><td>${t.phone}</td><td>${t.amount}</td><td>${t.status}</td>
+    <td>${t.status==='PENDING'?`<button onclick="confirmPaid('${t.id}')">Confirm</button>`:'✔'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function confirmPaid(id){
+  const txs=JSON.parse(localStorage.getItem('transactions')||'[]');
+  const tx=txs.find(t=>t.id===id);
+  if(tx){tx.status='SUCCESS';localStorage.setItem('transactions',JSON.stringify(txs));loadTransactions();}
+}
+loadTransactions();
+</script>
+</body>
+</html>
